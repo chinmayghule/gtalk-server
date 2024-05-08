@@ -20,7 +20,11 @@ app.use(cookieParser());
 // Allow requests from localhost:3000 (modify as needed)
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://localhost:3000"],
+    origin: [
+      "http://localhost:3000",
+      "https://localhost:3000",
+      "https://g-talk.vercel.app",
+    ],
     credentials: true,
   })
 );
