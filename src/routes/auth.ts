@@ -74,6 +74,8 @@ authRouter.post("/signup", async (req, res) => {
 
     res.cookie("userInfo", JSON.stringify(userInfo), {
       httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
     });
 
     res.status(201).json({ message: "user created successfully" });
@@ -120,6 +122,8 @@ authRouter.post("/login", async (req, res) => {
 
     res.cookie("userInfo", JSON.stringify(userInfo), {
       httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
     });
 
     return res.status(200).json({ message: "login sucessful" });
