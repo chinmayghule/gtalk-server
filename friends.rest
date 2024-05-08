@@ -1,0 +1,8 @@
+### get all friends
+GET http://localhost:4000/friends HTTP/1.1 
+
+### get friends by name, email or id
+GET http://localhost:4000/friends/search?q=<query> HTTP/1.1 
+
+### remove a friend
+DELETE http://localhost:4000/friends/660bdae651da768c233d286b HTTP/1.1

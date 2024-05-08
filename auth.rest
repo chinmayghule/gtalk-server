@@ -1,0 +1,31 @@
+### Signup
+
+POST http://localhost:4000/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName": "sarada",
+  "lastName": "uchiha",
+  "email": "sarada@mail.com",
+  "password": "konoha"
+}
+
+### Login
+
+POST http://localhost:4000/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "sakura@mail.com",
+  "password": "konoha"
+}
+
+### Logout
+GET http://localhost:4000/logout HTTP/1.1
+
+### User info
+GET http://localhost:4000/user HTTP/1.1
+
+
+# naruto : 663497f38ccbd8fc8402161d
+# sasuke: 6634986d8ccbd8fc8402162a

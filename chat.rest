@@ -1,0 +1,32 @@
+### get all pinned chats for the user
+### - every chat should have info about unread messages.
+GET http://localhost:4000/chat HTTP/1.1
+
+
+### get single chat for the user (i.e. get all messages)
+### - first check through all active chats.
+### - if not found in active chats, then create a new chat and pin it for both of them.
+### - if chat was cleared before for a user, then it's pinned again.
+GET http://localhost:4000/chat/<conversationId> HTTP/1.1
+
+### unpin and clear a chat
+POST http://localhost:4000/chat/unpinAndClear/<chatId> HTTP/1.1
+
+
+
+
+
+### create a new group
+POST http://localhost:4000/chat/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "first-group",
+  "type": "group",
+  "participants": [
+    "660bdae651da768c233d286b",
+    "660bdc94c235ee3ec8092cb0",
+    "660bf4e5422acd8c73dd73af"
+  ]
+}
+
