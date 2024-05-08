@@ -17,8 +17,7 @@ friendRequestsRouter.get(
   async (req: CustomRequest, res: express.Response) => {
     type ResponseFriendRequest = {
       friendRequestId: string;
-      sender_id: string;
-      receiver_id: string;
+      potentialFriendId: string;
       friendFirstName: string;
       friendLastName: string;
       friendProfileImageUrl: string | undefined;
@@ -52,8 +51,7 @@ friendRequestsRouter.get(
 
         const responseFriendRequest: ResponseFriendRequest = {
           friendRequestId: _id.toString(),
-          sender_id: sender_id.toString(),
-          receiver_id: receiver_id.toString(),
+          potentialFriendId: sender_id.toString(),
           friendFirstName: otherUser?.firstName || "",
           friendLastName: otherUser?.lastName || "",
           friendProfileImageUrl: otherUser?.profileImageUrl || undefined,

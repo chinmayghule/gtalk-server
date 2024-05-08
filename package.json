@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "node --env-file=.env --watch -r ts-node/register src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --env-file=.env --watch -r ts-node/register src/index.ts"
   },
   "keywords": [],
   "author": "",
