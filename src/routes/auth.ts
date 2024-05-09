@@ -60,7 +60,7 @@ authRouter.post("/signup", async (req, res) => {
     // set cookie with httpOnly flag
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
     });
 
@@ -74,7 +74,7 @@ authRouter.post("/signup", async (req, res) => {
 
     res.cookie("userInfo", JSON.stringify(userInfo), {
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
     });
 
