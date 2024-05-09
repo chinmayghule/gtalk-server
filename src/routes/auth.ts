@@ -108,8 +108,8 @@ authRouter.post("/login", async (req, res) => {
     // set cookie with httpOnly flag
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
       sameSite: "none",
+      secure: true,
     });
 
     // set regular object containing user info:
@@ -122,8 +122,8 @@ authRouter.post("/login", async (req, res) => {
 
     res.cookie("userInfo", JSON.stringify(userInfo), {
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
       sameSite: "none",
+      secure: true,
     });
 
     return res.status(200).json({ message: "login sucessful" });
@@ -137,8 +137,18 @@ authRouter.get(
   "/logout",
   verifyJWT,
   (req: express.Request, res: express.Response) => {
-    res.clearCookie("token");
-    res.clearCookie("userInfo");
+    res.cookie("token", "", {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      expires: new Date(0),
+    });
+    res.cookie("userInfo", "", {
+      httpOnly: false,
+      sameSite: "none",
+      secure: true,
+      expires: new Date(0),
+    });
     res.status(200).json({ message: "logout successful" });
   }
 );
@@ -160,6 +170,7 @@ authRouter.get(
       // if user not found, remove the token and send error
       if (!user) {
         res.clearCookie("token");
+        res.clearCookie("userInfo");
         return res.status(400).json({ message: "user not found" });
       }
 
