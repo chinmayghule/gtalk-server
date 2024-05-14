@@ -2,6 +2,8 @@ import express from "express";
 import verifyJWT from "../middlewares/verifyJWT";
 import Friends from "../schema/Friends";
 import User from "../schema/User";
+import Chat from "../schema/Chat";
+import Messages from "../schema/Messages";
 
 interface CustomRequest extends express.Request {
   userId?: string;
@@ -182,6 +184,19 @@ friendsRouter.delete(
 
       await user.save();
       await friend.save();
+
+      // delete the conversation.
+      // 01. get the chat from Chat where userId & friendId are participants.
+      const chat = await Chat.findOne({
+        participants: { $all: [userId, req.params.friendId] },
+      });
+
+      if (chat) {
+        await Chat.deleteOne({ _id: chat._id });
+        return res
+          .status(200)
+          .json({ message: "friend removed and chat deleted." });
+      }
 
       return res.status(200).json({ message: "friend removed" });
     } catch (error: any) {

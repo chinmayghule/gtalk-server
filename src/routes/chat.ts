@@ -70,7 +70,7 @@ chatRouter.get(
         });
       }
 
-      res.status(200).json({ chats: responseArray });
+      res.status(200).json({ userId, chats: responseArray });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
@@ -85,11 +85,13 @@ chatRouter.post(
     try {
       const userId = req.userId;
 
-      const { participants } = req.body;
-
-      if (participants.length < 2 || !participants.includes(userId)) {
+      if (req.body.participants.length < 1) {
         return res.status(400).json({ message: "invalid participants" });
       }
+
+      const participants = [...req.body.participants, userId];
+      console.log("participants: ", participants);
+      console.log("userId: ", userId);
 
       // first check whether a conversation already exists
       // where participants array contains the users of the
@@ -127,7 +129,7 @@ chatRouter.post(
         chat = await Chat.create({
           name: req.body?.name,
           type: req.body?.type,
-          participants: [...req.body.participants],
+          participants,
         });
       } catch (error: any) {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -195,7 +197,7 @@ chatRouter.get(
         messages = [];
       }
 
-      res.status(200).json({ messages });
+      res.status(200).json({ userId, messages });
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
