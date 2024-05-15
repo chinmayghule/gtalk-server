@@ -71,15 +71,13 @@ io.on(
   ) => {
     console.log("socket connected (id): ", socket.id);
 
-    const cookies = socket.request.headers.cookie;
-
-    if (cookies === undefined) {
-      console.log("cookies are undefined.");
+    let token = socket.handshake.headers.authorization;
+    if (!token) {
+      console.log("token is undefined.");
       return;
     }
-
-    const cookiesArray = cookies?.split("; ");
-    const token = cookiesArray[0].split("=")[1];
+    // remove the Bearer prefix
+    token = token.replace(/Bearer\s+/i, "");
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!) as {
       userId: string;
