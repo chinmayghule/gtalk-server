@@ -57,13 +57,6 @@ authRouter.post("/signup", async (req, res) => {
     // generate JWT with user id
     const token = await generateToken(newUser._id.toString());
 
-    // set cookie with httpOnly flag
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
-
     // set regular object containing user info:
     // { firstName, lastName, email }
     const userInfo = {
@@ -72,13 +65,11 @@ authRouter.post("/signup", async (req, res) => {
       email: newUser.email,
     };
 
-    res.cookie("userInfo", JSON.stringify(userInfo), {
-      httpOnly: false,
-      secure: true,
-      sameSite: "none",
+    res.status(201).json({
+      message: "user created successfully",
+      token,
+      userInfo,
     });
-
-    res.status(201).json({ message: "user created successfully" });
   } catch (error: any) {
     console.log("Could not create user", error);
     res.status(400).json({ message: "user could not be created" });
@@ -105,13 +96,6 @@ authRouter.post("/login", async (req, res) => {
     // generate JWT with user id
     const token = await generateToken(user._id.toString());
 
-    // set cookie with httpOnly flag
-    res.cookie("token", token, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
-
     // set regular object containing user info:
     // { firstName, lastName, email }
     const userInfo = {
@@ -120,13 +104,9 @@ authRouter.post("/login", async (req, res) => {
       email: user.email,
     };
 
-    res.cookie("userInfo", JSON.stringify(userInfo), {
-      httpOnly: false,
-      sameSite: "none",
-      secure: true,
-    });
-
-    return res.status(200).json({ message: "login sucessful" });
+    return res
+      .status(200)
+      .json({ message: "login sucessful", token, userInfo });
   }
 
   res.status(400).json({ message: "incorrect password" });

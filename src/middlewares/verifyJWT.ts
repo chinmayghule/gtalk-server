@@ -12,17 +12,25 @@ export default function verifyJWT(
   res: express.Response,
   next: express.NextFunction
 ) {
-  // Check if req.cookies is defined
-  if (!req.cookies) {
-    return res.status(401).json({ message: "Unauthorized: No cookies sent" });
+  // Extract the Authorization header value
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: No Authorization header" });
   }
 
-  // extract token from cookie
-  const token = req.cookies.token;
+  // Expecting the header to be in the format: Bearer <token>
+  const tokenParts = authHeader.split(" ");
 
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized: No token" });
+  if (tokenParts.length !== 2 || tokenParts[0].toLowerCase() !== "bearer") {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: Malformed Authorization header" });
   }
+
+  const token = tokenParts[1];
 
   try {
     // verify token using secret key
