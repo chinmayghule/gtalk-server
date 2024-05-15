@@ -34,6 +34,9 @@ app.use(
   })
 );
 
+// Handle preflight requests
+app.options("*", cors()); // Respond to preflight requests
+
 mongoose.connect(process.env.MONGO_URI!);
 
 const db = mongoose.connection;
