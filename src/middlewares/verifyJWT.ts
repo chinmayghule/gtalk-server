@@ -32,7 +32,7 @@ export default function verifyJWT(
 
   const token = tokenParts[1];
 
-  if (token.length === 0) {
+  if (!token || token.length === 0 || token === null || token === undefined) {
     return res.status(401).json({ message: "Unauthorized: Empty token" });
   }
 
