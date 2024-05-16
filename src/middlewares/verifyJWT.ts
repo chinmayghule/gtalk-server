@@ -32,6 +32,10 @@ export default function verifyJWT(
 
   const token = tokenParts[1];
 
+  if (token.length === 0) {
+    return res.status(401).json({ message: "Unauthorized: Empty token" });
+  }
+
   try {
     // verify token using secret key
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
