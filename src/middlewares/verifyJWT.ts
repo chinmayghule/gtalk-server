@@ -39,7 +39,14 @@ export default function verifyJWT(
   try {
     // verify token using secret key
     console.log("token: ", token);
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined");
+    }
+
+    console.log("secret key: ", process.env.JWT_SECRET);
+
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
     req.userId = (decodedToken as { userId: string }).userId;
     next();
