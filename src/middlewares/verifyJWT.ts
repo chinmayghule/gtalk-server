@@ -38,6 +38,7 @@ export default function verifyJWT(
 
   try {
     // verify token using secret key
+    console.log("token: ", token);
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET!);
 
     req.userId = (decodedToken as { userId: string }).userId;
